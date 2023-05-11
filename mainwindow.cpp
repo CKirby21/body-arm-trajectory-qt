@@ -6,6 +6,8 @@
 const int defaultBodyY = 300;
 const int defaultBodyHeight = 212;
 const int defaultArmY = 290;
+const int defaultArmLength = 100;
+const int defaultArmX = 620;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -42,7 +44,13 @@ void MainWindow::onArmLengthSliderValueChanged(int value)
     int sliderValue = ui->armLengthSlider->value();
     QString armLengthValue = QString::number(sliderValue);
 
-    ui->armLengthLabel->setText(armLengthValue);
+    ui->armLengthLabel->setText(armLengthValue + " ft");
+
+    // Move and scale arm
+    const int armOffsetX = defaultArmLength - sliderValue;
+    const int newArmX = defaultArmX + armOffsetX;
+    ui->arm->move(newArmX, ui->arm->y());
+    ui->arm->setFixedWidth(sliderValue);
 }
 
 void MainWindow::onArmVelocitySliderValueChanged(int value)
@@ -50,7 +58,7 @@ void MainWindow::onArmVelocitySliderValueChanged(int value)
     int sliderValue = ui->armVelocitySlider->value();
     QString armVelocityValue = QString::number(sliderValue);
 
-    ui->armVelocityLabel->setText(armVelocityValue);
+    ui->armVelocityLabel->setText(armVelocityValue + " mph");
 }
 
 MainWindow::~MainWindow()
