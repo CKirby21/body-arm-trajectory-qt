@@ -19,6 +19,7 @@ private slots:
     void onBodyHeightSliderValueChanged(int value);
     void onArmLengthSliderValueChanged(int value);
     void onArmVelocitySliderValueChanged(int value);
+    void onCalculateButtonClicked();
 
 private:
     Ui::MainWindow *ui;

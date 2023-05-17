@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "string.h"
+#include "trajectory.h"
 
 // TODO make these dynamic
 const int defaultBodyY = 300;
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->bodyHeightSlider, &QSlider::valueChanged, this, &MainWindow::onBodyHeightSliderValueChanged);
     connect(ui->armLengthSlider, &QSlider::valueChanged, this, &MainWindow::onArmLengthSliderValueChanged);
     connect(ui->armVelocitySlider, &QSlider::valueChanged, this, &MainWindow::onArmVelocitySliderValueChanged);
+    connect(ui->calculateButton, &QPushButton::clicked, this, &MainWindow::onCalculateButtonClicked);
 }
 
 void MainWindow::onBodyHeightSliderValueChanged(int value)
@@ -59,6 +61,16 @@ void MainWindow::onArmVelocitySliderValueChanged(int value)
     QString armVelocityValue = QString::number(sliderValue);
 
     ui->armVelocityLabel->setText(armVelocityValue + " mph");
+}
+
+void MainWindow::onCalculateButtonClicked()
+{
+    double bodyHeightFeet = ui->bodyHeightSlider->value();
+    double armLengthFeet = ui->armLengthSlider->value();
+    double armVelocityMilesPerHour = ui->armVelocitySlider->value();
+
+    MaxInfo maxInfo = trajectoriesAtEachAngle(armLengthFeet, bodyHeightFeet, armVelocityMilesPerHour);
+    ui->calculationLabel->setText(maxInfo.print());
 }
 
 MainWindow::~MainWindow()
